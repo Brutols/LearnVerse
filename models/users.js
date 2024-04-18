@@ -30,7 +30,8 @@ const UserSchema = new mongoose.Schema({
     myCourses: [{
         type: mongoose.Types.ObjectId,
         ref: "courseModel",
-        required: false
+        required: false,
+        default: []
     }]
 }, {timestamps: true, strict: true})
 

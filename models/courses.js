@@ -16,6 +16,10 @@ const CourseSchema = new mongoose.Schema({
     cover: {
         type: "string",
         required: true
+    },
+    category: {
+        type: "string",
+        required: true
     }
 }, {timestamps: true, strict: true})
 

@@ -9,7 +9,7 @@ const LessonSchema = new mongoose.Schema({
         type: "string",
         required: true
     },
-    description: {
+    desc: {
         type: "string",
         required: true
     },

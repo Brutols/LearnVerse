@@ -34,7 +34,8 @@ login.post("/login", async (req, res) => {
         res.status(200).send({
             statusCode: 200,
             message: "login successful",
-            token
+            token,
+            user
         })
     } catch (error) {
         res

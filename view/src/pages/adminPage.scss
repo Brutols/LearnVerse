@@ -1,0 +1,14 @@
+.adminContainer {
+    min-height: 90vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    &__addIcon {
+        position: absolute!important;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+

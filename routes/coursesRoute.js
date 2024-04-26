@@ -133,7 +133,7 @@ router.get("/courses", async (req, res) => {
 router.get("/courses/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const course = await courseModel.findOne(id);
+        const course = await courseModel.findById(id);
 
         if (!course) {
             return res.status(404)

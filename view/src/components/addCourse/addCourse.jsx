@@ -9,8 +9,12 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  coursesUploadImg,
+  createCourse,
+  createLessonsOrder,
   isAddCourseOpen,
   setAddCoursesOpen,
+  toggleRefresh,
 } from "../../Reducers/coursesReducer/coursesReducer";
 import { DialogContent, TextField } from "@mui/material";
 import "./addCourse.scss";
@@ -20,6 +24,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function AddCourse() {
+  const [formData, setFormData] = React.useState({});
+  const [fileToSend, setFileToSend] = React.useState(null)
   const addCourseOpen = useSelector(isAddCourseOpen);
   const dispatch = useDispatch();
 
@@ -27,7 +33,27 @@ export default function AddCourse() {
     dispatch(setAddCoursesOpen());
   };
 
-  const handleChange = () => {};
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({...formData, [name]: value})
+  };
+
+  const handleUpload = (e) => {
+    const fileToSave = e.target.files[0];
+    setFileToSend(fileToSave);
+  }
+
+  const handleSave = async () => {
+    const uploadedFile = await dispatch(coursesUploadImg(fileToSend));
+    const bodyToSend = {
+      ...formData,
+      cover: uploadedFile.payload
+    }
+    const newCourse = await dispatch(createCourse(bodyToSend, fileToSend));
+    const newCourseId = newCourse.payload.payload._id
+    await dispatch(createLessonsOrder(newCourseId));
+    dispatch(toggleRefresh());
+  }
 
   return (
     <React.Fragment>
@@ -50,7 +76,7 @@ export default function AddCourse() {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Add a course
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={handleSave}>
               save
             </Button>
           </Toolbar>
@@ -73,15 +99,15 @@ export default function AddCourse() {
             autoFocus
             required
             margin="dense"
-            id="description"
-            name="description"
+            id="desc"
+            name="desc"
             label="Description"
             type="text"
             fullWidth
             variant="outlined"
           />
           <TextField
-            onChange={handleChange}
+            onChange={handleUpload}
             autoFocus
             required
             margin="dense"

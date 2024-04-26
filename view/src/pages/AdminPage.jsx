@@ -6,6 +6,7 @@ import "./adminPage.scss";
 import { useDispatch } from "react-redux";
 import { setAddCoursesOpen } from "../Reducers/coursesReducer/coursesReducer";
 import AddCourse from "../components/addCourse/addCourse";
+import AllCourseCardBO from "../components/courseCardBO/AllCourseCardBO";
 
 const AdminPage = () => {
     const dispatch = useDispatch();
@@ -17,9 +18,10 @@ const AdminPage = () => {
   return (
     <MainLayout>
       <div className="adminContainer">
-        <Typography variant="h3" my={2}>
-            Your Courses
+        <Typography variant="h4" my={2} className="adminContainer__title">
+            Manage your Courses
         </Typography>
+        <AllCourseCardBO />
         <Tooltip title='Add course' followCursor enterDelay={500} color="">
         <Fab color="secondary" aria-label="add" className="adminContainer__addIcon" onClick={handleOpen}>
           <AddIcon />

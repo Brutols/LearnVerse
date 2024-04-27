@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const courseModel = require("../models/courses");
-const { cloudUpload } = require("../cloudinaryConfig/cloudinaryConfig")
+const { uploadFile } = require("../cloudinaryConfig/cloudinaryConfig")
 
 /**
  * @swagger
@@ -404,7 +404,7 @@ router.post("/courses", async (req, res) => {
  *                   type: string
  *                   example: 'File Upload Error'
  */
-router.post('/courses/uploadImg', cloudUpload.single('cover'), async (req, res) => {
+router.post('/courses/uploadImg', uploadFile, async (req, res) => {
     try {
         res.status(200).json({ source: req.file.path })
     } catch (error) {

@@ -7,14 +7,16 @@
     align-items: center;
     padding-inline: 20px;
 
-    &__title {
-        align-self: flex-start;
+    &__header {
+        color: white;
+        height: 20vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    &__img {
-        width: 100%;
-        aspect-ratio: 6/1;
-        object-fit: cover;
+    &__title {
+        align-self: flex-start;
     }
 
     &__addIcon {

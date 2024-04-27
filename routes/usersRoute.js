@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userModel = require("../models/users");
 const bcrypt = require("bcrypt");
-const { cloudUpload } = require("../cloudinaryConfig/cloudinaryConfig")
+const { uploadFile } = require("../cloudinaryConfig/cloudinaryConfig")
 
 /**
  * @swagger
@@ -302,7 +302,7 @@ router.post("/users", async (req, res) => {
  *                   type: string
  *                   example: "File Upload Error"
  */
-router.post('/users/uploadImg', cloudUpload.single('profilePic'), async (req, res) => {
+router.post('/users/uploadImg', uploadFile, async (req, res) => {
     try {
         res.status(200).json({ source: req.file.path })
     } catch (error) {

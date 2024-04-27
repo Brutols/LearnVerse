@@ -6,6 +6,8 @@ import "./editCourse.scss";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleCourse, isRefresh, singleCourseState } from "../Reducers/coursesReducer/coursesReducer";
+import { setAddLessonOpen } from "../Reducers/lessonsReducer/lessonsReducer";
+import AddLesson from "../components/addLesson/AddLesson";
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -17,16 +19,20 @@ const EditCourse = () => {
     dispatch(getSingleCourse(id))
   }, [refresh])
 
-  console.log(singleCourse);
-  const handleOpen = () => {};
+  const handleOpen = () => {
+    dispatch(setAddLessonOpen());
+  };
 
   return (
     <MainLayout>
-      <img src={singleCourse.cover} alt={singleCourse.title} className="editCourseContainer__img"/>
+      <Typography variant="h4" py={2} className="editCourseContainer__header" style={{backgroundImage: `url(${singleCourse.cover})`}}>
+        {singleCourse.title}
+      </Typography>
       <div className="editCourseContainer">
         <Typography variant="h4" my={2} className="editCourseContainer__title">
           Manage lessons
         </Typography>
+        <AddLesson courseId={id}/>
         <Tooltip title="Add lesson" followCursor enterDelay={500} color="">
           <Fab
             color="secondary"

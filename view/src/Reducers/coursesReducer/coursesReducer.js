@@ -38,7 +38,7 @@ export const coursesUploadImg = createAsyncThunk(
   "courses/POSTcoursesUploadImg",
   async (file) => {
     const fileFormData = new FormData();
-    fileFormData.append("cover", file);
+    fileFormData.append("file", file);
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/courses/uploadImg`,
@@ -58,7 +58,7 @@ export const coursesUploadImg = createAsyncThunk(
 
 export const createCourse = createAsyncThunk(
   "courses/POSTcreateCourse",
-  async (formData, file) => {
+  async ({formData, file}) => {
     if (!file) return;
     const bodyToSend = JSON.stringify(formData);
     try {

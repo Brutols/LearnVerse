@@ -275,7 +275,7 @@ router.patch("/lessonsOrder/:id", async (req, res) => {
 
         res.status(200).send(result)
     } catch (error) {
-        response
+        res
             .status(500)
             .send({
                 statusCode: 500,
@@ -348,7 +348,7 @@ router.delete("/lessonsOrder/:id", async (req, res) => {
 
         res.status(200).send(`LessonOrder with id ${id} deleted successfully`)
     } catch (error) {
-        response
+        res
             .status(500)
             .send({
                 statusCode: 500,

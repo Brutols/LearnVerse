@@ -10,6 +10,7 @@ import Slide from "@mui/material/Slide";
 import { useDispatch, useSelector } from "react-redux";
 import { DialogContent, TextField } from "@mui/material";
 import { createLesson, isAddLessonOpen, lessonsUploadImg, lessonsUploadVideo, setAddLessonOpen, toggleLessonsRefresh } from "../../Reducers/lessonsReducer/lessonsReducer";
+import { editLessonOrder, singleLessonsOrder } from "../../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -20,6 +21,7 @@ export default function AddLesson({courseId}) {
   const [fileToSend, setFileToSend] = React.useState(null);
   const [videoToSend, setVideoToSend] = React.useState(null);
   const addLessonOpen = useSelector(isAddLessonOpen);
+  const lessonsOrder = useSelector(singleLessonsOrder);
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -52,7 +54,12 @@ export default function AddLesson({courseId}) {
     }
     console.log(fileToSend);
     console.log(videoToSend);
-    await dispatch(createLesson({formData: bodyToSend, img: fileToSend, video: videoToSend}));
+    const newLesson = await dispatch(createLesson({formData: bodyToSend, img: fileToSend, video: videoToSend}));
+    const newLessonsOrder = [
+        ...lessonsOrder.lessonsOrder, newLesson.payload.payload._id
+    ]
+    console.log('NewLessonsOrder', newLessonsOrder);
+    await dispatch(editLessonOrder({id: lessonsOrder._id, newLessonsOrder: newLessonsOrder}))
     dispatch(toggleLessonsRefresh());
   }
 

@@ -7,11 +7,13 @@ import { Provider } from 'react-redux'
 import navReducer from './Reducers/navReducer/navReducer';
 import coursesReducer from './Reducers/coursesReducer/coursesReducer';
 import lessonsReducer from './Reducers/lessonsReducer/lessonsReducer';
+import lessonsOrderReducer from './Reducers/lessonsOrderReducer/lessonsOrderReducer';
 
 const reducer = combineReducers({
   navData: navReducer,
   coursesData: coursesReducer,
-  lessonsData: lessonsReducer
+  lessonsData: lessonsReducer,
+  lessonsOrderData: lessonsOrderReducer,
 })
 
 const store = configureStore({

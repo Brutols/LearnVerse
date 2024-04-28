@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleCourse, isRefresh, singleCourseState } from "../Reducers/coursesReducer/coursesReducer";
 import { setAddLessonOpen } from "../Reducers/lessonsReducer/lessonsReducer";
 import AddLesson from "../components/addLesson/AddLesson";
+import { getLessonsOrder } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -17,6 +18,7 @@ const EditCourse = () => {
 
   useEffect(() => {
     dispatch(getSingleCourse(id))
+    dispatch(getLessonsOrder(id))
   }, [refresh])
 
   const handleOpen = () => {

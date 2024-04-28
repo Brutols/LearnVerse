@@ -72,6 +72,7 @@ const initialState = {
   error: "",
   loading: false,
   lessonsRefresh: false,
+  lesson: {},
 };
 
 const lessonsSlice = createSlice({
@@ -109,20 +110,19 @@ const lessonsSlice = createSlice({
       })
       .addCase(createLesson.pending, (state) => {
         state.loading = true;
-        console.log('isPending');
       })
-      .addCase(createLesson.fulfilled, (state) => {
+      .addCase(createLesson.fulfilled, (state, action) => {
         state.loading = false;
-        console.log('isFulfilled');
+        state.lesson = action.payload;
       })
       .addCase(createLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
-        console.log('isRejected');
       });
   },
 });
 
+export const singleLesson = (state) => state.lessonsData.lesson;
 export const isLessonsRefresh = (state) => state.lessonsData.lessonsRefresh;
 export const isLessonError = (state) => state.lessonsData.error;
 export const isLessonLoading = (state) => state.lessonsData.loading;

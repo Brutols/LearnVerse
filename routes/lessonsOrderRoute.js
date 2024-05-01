@@ -65,7 +65,7 @@ router.get("/lessonsOrder/:courseId", async (req, res) => {
     try {
         const lessonsOrder = await lessonsOrderModel.findOne({
             courseId: courseId
-        })
+        }).populate('lessonsOrder')
 
         if (!lessonsOrder) {
             return res.status(404).send({
@@ -73,7 +73,6 @@ router.get("/lessonsOrder/:courseId", async (req, res) => {
                 message: 'no lessonOrder found with the given courseId'
             })
         }
-
         res.status(200).send(lessonsOrder)
     } catch (error) {
         res

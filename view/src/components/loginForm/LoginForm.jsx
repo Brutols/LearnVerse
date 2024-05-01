@@ -8,16 +8,17 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    createUser,
+  createUser,
   handleOpenLogin,
   isLoginOpen,
   userLogin,
 } from "../../Reducers/navReducer/navReducer";
 import { Link } from "@mui/material";
+import { toast } from "react-toastify";
 
 export default function LoginForm() {
   const [isRegisterForm, setIsRegisterForm] = React.useState(false);
-  const [formData, setFormData] = React.useState({})
+  const [formData, setFormData] = React.useState({});
   const openLogin = useSelector(isLoginOpen);
   const dispatch = useDispatch();
 
@@ -28,13 +29,13 @@ export default function LoginForm() {
 
   const handleIsRegisterForm = () => {
     setIsRegisterForm(!isRegisterForm);
-    setFormData({})
+    setFormData({});
   };
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value})
-  }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
     <React.Fragment>
@@ -45,8 +46,13 @@ export default function LoginForm() {
           component: "form",
           onSubmit: (event) => {
             event.preventDefault();
-            isRegisterForm ? dispatch(createUser(formData)) : dispatch(userLogin(formData));
+            isRegisterForm
+              ? dispatch(createUser(formData))
+              : dispatch(userLogin(formData));
             handleClose();
+            isRegisterForm
+              ? toast.success("Congrats! You are now registered")
+              : toast.success("You have logged in");
           },
         }}
       >

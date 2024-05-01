@@ -43,6 +43,11 @@ export const editLessonOrder = createAsyncThunk(
   const lessonsOrderSlice = createSlice({
     name: 'lessonsOrder',
     initialState,
+    reducers: {
+      setLessonsOrder: (state, action) => {
+        state.lessonsOrder = action.payload;
+      }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getLessonsOrder.pending, (state) => {
@@ -73,5 +78,6 @@ export const editLessonOrder = createAsyncThunk(
   export const isLessonsOrderLoading = (state) => state.lessonsOrderData.loading;
   export const isLessonsOrderError = (state) => state.lessonsOrderData.error;
   export const singleLessonsOrder = (state) => state.lessonsOrderData.lessonsOrder;
+  export const { setLessonsOrder } = lessonsOrderSlice.actions;
 
 export default lessonsOrderSlice.reducer;

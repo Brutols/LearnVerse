@@ -8,7 +8,7 @@ const LessonsOrderSchema = new mongoose.Schema(
     },
     lessonsOrder: [{
         type: mongoose.Types.ObjectId,
-        ref: 'lessons',
+        ref: 'lessonModel',
         required: false,
         default: []
     }],

@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { authToken, handleOpen, handleOpenLogin, resetToken } from '../../Reducers/navReducer/navReducer';
+import { toast } from 'react-toastify';
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,6 +34,7 @@ export default function Navbar() {
     setAnchorEl(null);
     dispatch(resetToken())
     localStorage.removeItem('auth')
+    toast.success('You have logged out');
   }
 
   const handleClose = () => {

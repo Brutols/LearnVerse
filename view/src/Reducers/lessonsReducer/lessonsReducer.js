@@ -1,6 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+export const getCourseLessons = createAsyncThunk(
+  'lessons/GETcourseLessons',
+  async (id) => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/lessons/${id}`);
+      return await res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
 export const lessonsUploadVideo = createAsyncThunk(
   "lessons/POSTlessonsUploadVideo",
   async (file) => {
@@ -73,6 +85,7 @@ const initialState = {
   loading: false,
   lessonsRefresh: false,
   lesson: {},
+  allLessons: [],
 };
 
 const lessonsSlice = createSlice({
@@ -88,6 +101,17 @@ const lessonsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getCourseLessons.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCourseLessons.fulfilled, (state, action) => {
+        state.loading = false;
+        state.allLessons = action.payload;
+      })
+      .addCase(getCourseLessons.rejected, (state, action) => {
+        state.loading = false;
+        state.error = `${action.error.code}: ${action.error.message}`;
+      })
       .addCase(lessonsUploadVideo.pending, (state) => {
         state.loading = true;
       })
@@ -122,6 +146,7 @@ const lessonsSlice = createSlice({
   },
 });
 
+export const allTheLessons = (state) => state.lessonsData.allLessons;
 export const singleLesson = (state) => state.lessonsData.lesson;
 export const isLessonsRefresh = (state) => state.lessonsData.lessonsRefresh;
 export const isLessonError = (state) => state.lessonsData.error;

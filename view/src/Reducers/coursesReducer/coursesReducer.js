@@ -126,7 +126,7 @@ const coursesSlice = createSlice({
         state.error = `${action.error.code}: ${action.error.message}`;
       })
       .addCase(getSingleCourse.pending, (state) => {
-        state.loading = false;
+        state.loading = true;
       })
       .addCase(getSingleCourse.fulfilled, (state, action) => {
         state.loading = false;

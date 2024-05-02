@@ -11,16 +11,20 @@ import {
   createUser,
   handleOpenLogin,
   isLoginOpen,
+  user,
   userLogin,
 } from "../../Reducers/navReducer/navReducer";
 import { Link } from "@mui/material";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [isRegisterForm, setIsRegisterForm] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const openLogin = useSelector(isLoginOpen);
+  const loggedUser = useSelector(user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClose = () => {
     dispatch(handleOpenLogin());
@@ -36,6 +40,8 @@ export default function LoginForm() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const role = loggedUser.role;
 
   return (
     <React.Fragment>
@@ -53,6 +59,9 @@ export default function LoginForm() {
             isRegisterForm
               ? toast.success("Congrats! You are now registered")
               : toast.success("You have logged in");
+            setTimeout(() => {
+              role === "admin" ? navigate("/admin") : navigate("/");
+            }, 1000)
           },
         }}
       >

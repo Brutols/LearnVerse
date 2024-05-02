@@ -1,25 +1,33 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { useDispatch, useSelector } from 'react-redux';
-import { authToken, handleOpen, handleOpenLogin, resetToken } from '../../Reducers/navReducer/navReducer';
-import { toast } from 'react-toastify';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  authToken,
+  handleOpen,
+  handleOpenLogin,
+  resetToken,
+} from "../../Reducers/navReducer/navReducer";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { Divider } from "@mui/material";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const token = useSelector(authToken);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleMenuClick = () => {
-    dispatch(handleOpen())
-  }
+    dispatch(handleOpen());
+  };
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -27,15 +35,16 @@ export default function Navbar() {
 
   const handleLoginClick = () => {
     setAnchorEl(null);
-    dispatch(handleOpenLogin())
+    dispatch(handleOpenLogin());
   };
 
   const handleLogOutClick = () => {
     setAnchorEl(null);
-    dispatch(resetToken())
-    localStorage.removeItem('auth')
-    toast.success('You have logged out');
-  }
+    dispatch(resetToken());
+    localStorage.removeItem("auth");
+    navigate("/");
+    toast.success("You have logged out");
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -58,36 +67,43 @@ export default function Navbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             LearnVerse
           </Typography>
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={(anchorEl)}
-                onClose={handleClose}
-              >
+          <div>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={anchorEl}
+              onClose={handleClose}
+            >
+              {token ? (
+                <>
+                  <MenuItem onClick={handleLogOutClick}>My Profile</MenuItem>
+                  <Divider />
+                  <MenuItem onClick={handleLogOutClick}>Log Out</MenuItem>
+                </>
+              ) : (
                 <MenuItem onClick={handleLoginClick}>Login</MenuItem>
-                <MenuItem onClick={handleLogOutClick}>Log Out</MenuItem>
-              </Menu>
-            </div>
+              )}
+            </Menu>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>

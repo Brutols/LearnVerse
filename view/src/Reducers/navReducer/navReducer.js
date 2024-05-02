@@ -81,7 +81,7 @@ const navSlice = createSlice({
                 state.error = `${action.error.code}: ${action.error.message}`
             })
             .addCase(userLogin.pending, (state) => {
-                state.loading = false;
+                state.loading = true;
             })
             .addCase(userLogin.fulfilled, (state, action) => {
                 state.loading = false;
@@ -96,6 +96,7 @@ const navSlice = createSlice({
     }
 })
 
+export const isLoginLoading = (state) => state.navData.loading;
 export const isOpen = (state) => state.navData.open;
 export const isLoginOpen = (state) => state.navData.openLogin;
 export const authToken = (state) => state.navData.token;

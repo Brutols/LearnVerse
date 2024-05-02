@@ -3,12 +3,16 @@ import MainLayout from "../layouts/mainLayout/MainLayout";
 import { Fab, Tooltip, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import "./adminPage.scss";
-import { useDispatch } from "react-redux";
-import { setAddCoursesOpen } from "../Reducers/coursesReducer/coursesReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { isCourseLoading, setAddCoursesOpen } from "../Reducers/coursesReducer/coursesReducer";
 import AddCourse from "../components/addCourse/addCourse";
 import AllCourseCardBO from "../components/courseCardBO/AllCourseCardBO";
+import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
+import { isLessonsOrderLoading } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 
 const AdminPage = () => {
+    const courseLoading = useSelector(isCourseLoading);
+    const lessonOrderLoading = useSelector(isLessonsOrderLoading);
     const dispatch = useDispatch();
 
     const handleOpen = () => {
@@ -29,6 +33,7 @@ const AdminPage = () => {
         </Tooltip>
       </div>
       <AddCourse />
+      {courseLoading || lessonOrderLoading ? <SpinnerLoader /> : null}
     </MainLayout>
   );
 };

@@ -7,13 +7,15 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getSingleCourse,
+  isCourseLoading,
   isRefresh,
   singleCourseState,
 } from "../Reducers/coursesReducer/coursesReducer";
-import { isLessonsRefresh, setAddLessonOpen } from "../Reducers/lessonsReducer/lessonsReducer";
+import { isLessonLoading, isLessonsRefresh, setAddLessonOpen } from "../Reducers/lessonsReducer/lessonsReducer";
 import AddLesson from "../components/addLesson/AddLesson";
-import { getLessonsOrder } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
+import { getLessonsOrder, isLessonsOrderLoading } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 import AllLessonCardBO from "../components/lessonCardBO/AllLessonCardBO";
+import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -21,6 +23,9 @@ const EditCourse = () => {
   const refresh = useSelector(isRefresh);
   const lessonsRefresh = useSelector(isLessonsRefresh);
   const singleCourse = useSelector(singleCourseState);
+  const courseLoading = useSelector(isCourseLoading);
+  const lessonLoading = useSelector(isLessonLoading);
+  const lessonOrderLoading = useSelector(isLessonsOrderLoading);
 
   useEffect(() => {
     dispatch(getSingleCourse(id));
@@ -65,6 +70,7 @@ const EditCourse = () => {
             </Fab>
           </Tooltip>
         </div>
+        {courseLoading || lessonLoading || lessonOrderLoading ? <SpinnerLoader /> : null}
     </MainLayout>
   );
 };

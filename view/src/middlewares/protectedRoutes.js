@@ -1,5 +1,7 @@
 import {Outlet} from "react-router-dom";
 import Homepage from "../pages/Homepage";
+import { useSelector } from "react-redux";
+import { user } from "../Reducers/navReducer/navReducer";
 
 
 const useAuth = () => {
@@ -8,7 +10,9 @@ const useAuth = () => {
 
 const ProtectedRoutes = () => {
     const isAuth = useAuth()
-    return isAuth ? <Outlet /> : <Homepage />;
+    const loggedUser = useSelector(user);
+    const userIsAdmin = loggedUser.role === 'admin';
+    return isAuth && userIsAdmin ? <Outlet /> : <Homepage />;
 }
 
 export default ProtectedRoutes;

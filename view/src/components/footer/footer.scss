@@ -1,0 +1,43 @@
+.footer {
+    background-color: #1976D2;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-top: 30px;
+
+    &__logo {
+        width: 30%;
+        text-align: center;
+    }
+
+    &__title {
+        font-weight: bold;
+        border-bottom: 1px solid #fff;
+    }
+
+    &__text {
+        width: 60%;
+    }
+
+    &__link {
+        color: #ffffffb6!important;
+        font-weight: bold;
+        transition: all 0.1s ease-in-out;
+
+        &:hover {
+            text-decoration: underline;
+            color: #fff!important;
+        }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .footer {
+        flex-direction: column;
+
+        &__text {
+            width: 80%;
+        }
+    }
+}

@@ -154,10 +154,10 @@ router.get("/lessons/:courseId", async (req, res) => {
  *                   type: string
  *                   example: "Internal server error: [error message]"
  */
-router.get("/lessons/:id", async (req, res) => {
+router.get("/lessons/single/:id", async (req, res) => {
     const { id } = req.params;
     try {
-        const lesson = await lessonModel.findOne(id);
+        const lesson = await lessonModel.findById(id);
 
         if (!lesson) {
             return res.status(404).send({

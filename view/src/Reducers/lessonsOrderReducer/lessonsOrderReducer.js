@@ -46,7 +46,7 @@ export const editLessonOrder = createAsyncThunk(
     reducers: {
       setLessonsOrder: (state, action) => {
         state.lessonsOrder = action.payload;
-      }
+      },
     },
     extraReducers: (builder) => {
         builder

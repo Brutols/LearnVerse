@@ -3,11 +3,15 @@ import LessonCardBO from "./LessonCardBO";
 import { Droppable, DragDropContext } from "react-beautiful-dnd";
 import { editLessonOrder, getLessonsOrder, singleLessonsOrder } from "../../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 import { useEffect, useState } from "react";
+import { isRefresh } from "../../Reducers/coursesReducer/coursesReducer";
+import { isLessonsRefresh } from "../../Reducers/lessonsReducer/lessonsReducer";
 
 
 const AllLessonCardBO = ({id}) => {
   const dispatch = useDispatch();
   const lessonsOrder = useSelector(singleLessonsOrder);
+  const refresh = useSelector(isRefresh);
+  const lessonsRefresh = useSelector(isLessonsRefresh);
   const [lessons, setLessons] = useState([]);
 
   const onDragEnd = (result) => {
@@ -37,7 +41,7 @@ const AllLessonCardBO = ({id}) => {
       await setLessons(res.payload.lessonsOrder)
     }
     getLessonsData();
-  }, [])
+  }, [refresh, lessonsRefresh, id])
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -54,6 +58,7 @@ const AllLessonCardBO = ({id}) => {
                   desc={lesson.desc}
                   cover={lesson.cover}
                   fileUrl={lesson.fileUrl}
+                  lessonId={lesson._id}
                   key={i}
                   id={i}
                 />

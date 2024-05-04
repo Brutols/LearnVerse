@@ -6,7 +6,6 @@ const initialState = {
     openLogin: false,
     loading: false,
     error: '',
-    token: '',
     loggedUser: {}
 }
 
@@ -66,6 +65,9 @@ const navSlice = createSlice({
         },
         resetToken: (state) => {
             state.token = ''
+        },
+        resetLoggedUser: (state) => {
+            state.loggedUser = {};
         }
     },
     extraReducers: (builder) => {
@@ -85,7 +87,6 @@ const navSlice = createSlice({
             })
             .addCase(userLogin.fulfilled, (state, action) => {
                 state.loading = false;
-                state.token = action.payload.token;
                 state.loggedUser = action.payload.user;
                 localStorage.setItem('auth', JSON.stringify(action.payload.token));
             })
@@ -99,8 +100,7 @@ const navSlice = createSlice({
 export const isLoginLoading = (state) => state.navData.loading;
 export const isOpen = (state) => state.navData.open;
 export const isLoginOpen = (state) => state.navData.openLogin;
-export const authToken = (state) => state.navData.token;
 export const user = (state) => state.navData.loggedUser;
-export const {handleOpen, handleOpenLogin, resetToken} = navSlice.actions;
+export const {handleOpen, handleOpenLogin, resetToken, resetLoggedUser} = navSlice.actions;
 
 export default navSlice.reducer;

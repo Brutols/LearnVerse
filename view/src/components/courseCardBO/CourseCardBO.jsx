@@ -39,7 +39,7 @@ export default function CourseCardBO({title, desc, cover, price, category, id}) 
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={handleRedirect}>Edit</Button>
+        <Button variant='contained' size="small" onClick={handleRedirect}>Edit</Button>
       </CardActions>
     </Card>
   );

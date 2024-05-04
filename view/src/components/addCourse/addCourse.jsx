@@ -53,6 +53,7 @@ export default function AddCourse() {
     const newCourseId = newCourse.payload.payload._id
     await dispatch(createLessonsOrder(newCourseId));
     dispatch(toggleRefresh());
+    handleClose();
   }
 
   return (

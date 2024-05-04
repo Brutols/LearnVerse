@@ -2,16 +2,32 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const getCourseLessons = createAsyncThunk(
-  'lessons/GETcourseLessons',
+  "lessons/GETcourseLessons",
   async (id) => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/lessons/${id}`);
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/lessons/${id}`
+      );
       return await res.data;
     } catch (error) {
       console.log(error);
     }
   }
-)
+);
+
+export const getSingleLesson = createAsyncThunk(
+  "lessons/GETsingleLesson",
+  async (id) => {
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/lessons/single/${id}`
+      );
+      return await res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const lessonsUploadVideo = createAsyncThunk(
   "lessons/POSTlessonsUploadVideo",
@@ -59,7 +75,7 @@ export const lessonsUploadImg = createAsyncThunk(
 
 export const createLesson = createAsyncThunk(
   "lessons/POSTcreateLesson",
-  async ({formData, img, video}) => {
+  async ({ formData, img, video }) => {
     if (!img || !video) return;
     const bodyToSend = JSON.stringify(formData);
     try {
@@ -79,8 +95,31 @@ export const createLesson = createAsyncThunk(
   }
 );
 
+export const updateLesson = createAsyncThunk(
+  "lessons/PATCHupdateLesson",
+  async ({ id, formData }) => {
+    const bodyToSend = JSON.stringify(formData);
+    try {
+      const res = await axios.patch(
+        `${process.env.REACT_APP_BASE_URL}/lessons/${id}`,
+        bodyToSend,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return await res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   addLessonOpen: false,
+  editLesson: false,
+  lessonId: "",
   error: "",
   loading: false,
   lessonsRefresh: false,
@@ -96,8 +135,14 @@ const lessonsSlice = createSlice({
       state.addLessonOpen = !state.addLessonOpen;
     },
     toggleLessonsRefresh: (state) => {
-        state.lessonsRefresh = !state.lessonsRefresh;
-    }
+      state.lessonsRefresh = !state.lessonsRefresh;
+    },
+    setEditLesson: (state) => {
+      state.editLesson = !state.editLesson;
+    },
+    setLessonId: (state, action) => {
+      state.lessonId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -109,6 +154,17 @@ const lessonsSlice = createSlice({
         state.allLessons = action.payload;
       })
       .addCase(getCourseLessons.rejected, (state, action) => {
+        state.loading = false;
+        state.error = `${action.error.code}: ${action.error.message}`;
+      })
+      .addCase(getSingleLesson.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getSingleLesson.fulfilled, (state, action) => {
+        state.loading = false;
+        state.lesson = action.payload;
+      })
+      .addCase(getSingleLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
       })
@@ -142,16 +198,33 @@ const lessonsSlice = createSlice({
       .addCase(createLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+      })
+      .addCase(updateLesson.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateLesson.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateLesson.rejected, (state, action) => {
+        state.loading = false;
+        state.error = `${action.error.code}: ${action.error.message}`;
       });
   },
 });
 
+export const singleLessonId = (state) => state.lessonsData.lessonId;
+export const isEditLesson = (state) => state.lessonsData.editLesson;
 export const allTheLessons = (state) => state.lessonsData.allLessons;
 export const singleLesson = (state) => state.lessonsData.lesson;
 export const isLessonsRefresh = (state) => state.lessonsData.lessonsRefresh;
 export const isLessonError = (state) => state.lessonsData.error;
 export const isLessonLoading = (state) => state.lessonsData.loading;
 export const isAddLessonOpen = (state) => state.lessonsData.addLessonOpen;
-export const { setAddLessonOpen, toggleLessonsRefresh } = lessonsSlice.actions;
+export const {
+  setAddLessonOpen,
+  toggleLessonsRefresh,
+  setEditLesson,
+  setLessonId,
+} = lessonsSlice.actions;
 
 export default lessonsSlice.reducer;

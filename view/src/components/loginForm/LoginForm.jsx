@@ -11,7 +11,6 @@ import {
   createUser,
   handleOpenLogin,
   isLoginOpen,
-  user,
   userLogin,
 } from "../../Reducers/navReducer/navReducer";
 import { Link } from "@mui/material";
@@ -22,7 +21,6 @@ export default function LoginForm() {
   const [isRegisterForm, setIsRegisterForm] = React.useState(false);
   const [formData, setFormData] = React.useState({});
   const openLogin = useSelector(isLoginOpen);
-  const loggedUser = useSelector(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -41,30 +39,25 @@ export default function LoginForm() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const role = loggedUser.role;
+  const handleSubmit = async () => {
+    if (isRegisterForm) {
+      await dispatch(createUser(formData))
+    } else {
+      const testUser = await dispatch(userLogin(formData));
+      const role = testUser.payload.user.role;
+      role === "admin" ? navigate("/admin") : navigate("/");
+    }
+
+    isRegisterForm
+      ? toast.success("Congrats! You are now registered")
+      : toast.success("You have logged in");
+
+    handleClose();
+  };
 
   return (
     <React.Fragment>
-      <Dialog
-        open={openLogin}
-        onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: (event) => {
-            event.preventDefault();
-            isRegisterForm
-              ? dispatch(createUser(formData))
-              : dispatch(userLogin(formData));
-            handleClose();
-            isRegisterForm
-              ? toast.success("Congrats! You are now registered")
-              : toast.success("You have logged in");
-            setTimeout(() => {
-              role === "admin" ? navigate("/admin") : navigate("/");
-            }, 1000)
-          },
-        }}
-      >
+      <Dialog open={openLogin} onClose={handleClose}>
         <DialogTitle>{isRegisterForm ? "Register" : "Login"}</DialogTitle>
         <DialogContent>
           {isRegisterForm && (
@@ -130,7 +123,9 @@ export default function LoginForm() {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">{isRegisterForm ? "Register" : "Login"}</Button>
+          <Button onClick={handleSubmit}>
+            {isRegisterForm ? "Register" : "Login"}
+          </Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

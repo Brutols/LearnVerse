@@ -8,11 +8,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
-  authToken,
   handleOpen,
   handleOpenLogin,
+  resetLoggedUser,
   resetToken,
 } from "../../Reducers/navReducer/navReducer";
 import { toast } from "react-toastify";
@@ -21,7 +21,7 @@ import { Divider } from "@mui/material";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const token = useSelector(authToken);
+  const token = localStorage.getItem('auth')
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ export default function Navbar() {
   const handleLogOutClick = () => {
     setAnchorEl(null);
     dispatch(resetToken());
+    dispatch(resetLoggedUser());
     localStorage.removeItem("auth");
     navigate("/");
     toast.success("You have logged out");

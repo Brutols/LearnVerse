@@ -47,7 +47,7 @@ export default function SideMenu() {
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate('/userDashboard')}>
                 <ListItemIcon>
                   <DashboardIcon />
                 </ListItemIcon>

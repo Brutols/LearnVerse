@@ -3,8 +3,6 @@ import MainLayout from "../layouts/mainLayout/MainLayout";
 import "./browseCourses.scss";
 import {
   Grid,
-  Card,
-  CardContent,
   Typography,
   Container,
   Paper,
@@ -15,6 +13,7 @@ import {
 } from "../Reducers/coursesReducer/coursesReducer";
 import { useEffect, useState } from "react";
 import CategoryFilter from "../components/categoryFilter/CategoryFilter";
+import CourseCardFO from "../components/courseCardFO/CourseCardFO";
 
 const BrowseCourses = () => {
   const [filteredCourses, setFilteredCourses] = useState([]);
@@ -41,62 +40,10 @@ const BrowseCourses = () => {
         <Grid container spacing={3}>
           {filteredCourses.length > 0
             ? filteredCourses.map((course, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card>
-                    <img
-                      src={course.cover}
-                      alt={course.title}
-                      style={{
-                        width: "100%",
-                        aspectRatio: "16/9",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <CardContent>
-                      <Typography noWrap variant="h5" component="div">
-                        {course.title}
-                      </Typography>
-                      <Typography noWrap variant="body2" color="text.secondary">
-                        {course.desc}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Category: {course.category}
-                      </Typography>
-                      <Typography variant="h6" component="div" sx={{ mt: 1 }}>
-                        {course.price.toFixed(2)} €
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                <CourseCardFO key={index} course={course} />
               ))
             : courses.map((course, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card>
-                    <img
-                      src={course.cover}
-                      alt={course.title}
-                      style={{
-                        width: "100%",
-                        aspectRatio: "16/9",
-                        objectFit: "cover",
-                      }}
-                    />
-                    <CardContent>
-                      <Typography noWrap variant="h5" component="div">
-                        {course.title}
-                      </Typography>
-                      <Typography noWrap variant="body2" color="text.secondary">
-                        {course.desc}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Category: {course.category}
-                      </Typography>
-                      <Typography variant="h6" component="div" sx={{ mt: 1 }}>
-                        {course.price.toFixed(2)} €
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                <CourseCardFO key={index} course={course} />
               ))}
         </Grid>
       </Container>

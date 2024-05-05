@@ -8,20 +8,24 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   handleOpen,
   handleOpenLogin,
   resetLoggedUser,
   resetToken,
+  user,
 } from "../../Reducers/navReducer/navReducer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Divider } from "@mui/material";
+import { Avatar, Divider } from "@mui/material";
+import logo from "../../assets/logo_learnverse.png";
+import "./navbar.scss";
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const token = localStorage.getItem('auth')
+  const loggedUser = useSelector(user);
+  const token = localStorage.getItem("auth");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -66,7 +70,7 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            LearnVerse
+            <img src={logo} alt="Logo" className="logo" />
           </Typography>
           <div>
             <IconButton
@@ -77,7 +81,15 @@ export default function Navbar() {
               onClick={handleMenu}
               color="inherit"
             >
-              <AccountCircle />
+              {loggedUser ? (
+                <Avatar
+                  alt={loggedUser.firstName}
+                  src={loggedUser.profilePic}
+                  sx={{ width: 32, height: 32 }}
+                />
+              ) : (
+                <AccountCircle />
+              )}
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -96,7 +108,7 @@ export default function Navbar() {
             >
               {token ? (
                 <>
-                  <MenuItem onClick={handleLogOutClick}>My Profile</MenuItem>
+                  <MenuItem onClick={() => navigate('/userDashboard')}>My Dashboard</MenuItem>
                   <Divider />
                   <MenuItem onClick={handleLogOutClick}>Log Out</MenuItem>
                 </>

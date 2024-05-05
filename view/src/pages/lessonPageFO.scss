@@ -1,0 +1,19 @@
+.lesson {
+    margin-top: 30px;
+
+  &__videoWrapper {
+    aspect-ratio: 16/9;
+    position: relative;
+    margin-top: 30px;
+
+    &__video {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  &__text {
+    padding: 10px;
+  }
+}

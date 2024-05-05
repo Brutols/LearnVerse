@@ -1,0 +1,66 @@
+.courseFO {
+    margin-top: 30px;
+
+    &__wrapper {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 20px;
+
+        &__img {
+            width: 50%;
+            border-radius: 5px!important;
+
+            &__img {
+                width: 100%;
+                border-radius: 5px;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &__lessons {
+        margin-top: 20px;
+
+        &__item {
+            display: flex;
+            cursor: pointer;
+
+            &__img {
+                width: 20%;
+                object-fit: cover;
+                border-bottom-left-radius: 5px;
+                border-top-left-radius: 5px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .courseFO__wrapper {
+        flex-wrap: wrap;
+
+        &__img {
+            width: 80%;
+        }
+
+        &__text {
+            width: 80%;
+        }
+    }
+
+    .courseFO__lessons {
+        width: 80%;
+        margin-inline: auto;
+
+        &__item {
+            flex-direction: column;
+
+            &__img {
+                width: 100%;
+                border-bottom-left-radius: unset;
+                border-top-right-radius: 5px;
+            }
+        }
+    }
+}

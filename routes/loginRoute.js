@@ -6,7 +6,7 @@ const userModel = require("../models/users")
 
 login.post("/login", async (req, res) => {
     try {
-        const user = await userModel.findOne({email: req.body.email})
+        const user = await userModel.findOne({email: req.body.email}).populate('myCourses')
         if (!user) {
             return res.status(404).send({
                 statusCode: 404,

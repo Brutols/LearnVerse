@@ -13,7 +13,7 @@ export default function CategoryFilter({ setFilteredCourses }) {
 
   const categories = [];
 
-  courses.map((course) => {
+  courses.forEach((course) => {
     if (!categories.includes(course.category)) {
       categories.push(course.category);
     }

@@ -4,7 +4,7 @@ import axios from 'axios';
 const initialState = {
     loading: false,
     error: '',
-    lessonsOrder: [],
+    lessonsOrder: {},
 }
 
 export const getLessonsOrder = createAsyncThunk(

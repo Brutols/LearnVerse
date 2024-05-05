@@ -2,16 +2,17 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import "./footer.scss";
+import logo from "../../assets/logo_learnverse.png";
 
 const Footer = () => {
   return (
     <footer className="footer">
-      <Typography variant="h5" className="footer__logo">
-        LearnVerse &copy; {new Date().getFullYear()}
-      </Typography>
+      <div className="footer__logo">
+        <img src={logo} alt="Logo"/>
+      </div>
       <Typography variant="body2" className="footer__text">
         <Typography variant="h5" className="footer__title">
-            Disclaimer
+          Disclaimer
         </Typography>
         This website is developed for educational purposes. All content
         displayed on this website belongs to their respective owners and is used

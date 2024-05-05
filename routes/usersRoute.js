@@ -420,7 +420,7 @@ router.patch("/users/:id", async (req, res) => {
         const updatedData = req.body;
         const options = { new: true };
 
-        const result = await userModel.findByIdAndUpdate(id, updatedData, options);
+        const result = await userModel.findByIdAndUpdate(id, updatedData, options).populate('myCourses');
 
         res.status(200).send(result)
     } catch (error) {

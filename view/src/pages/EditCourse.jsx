@@ -16,6 +16,7 @@ import AddLesson from "../components/addLesson/AddLesson";
 import { isLessonsOrderLoading } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 import AllLessonCardBO from "../components/lessonCardBO/AllLessonCardBO";
 import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
+import ConfirmDialog from '../components/confirmDialog/ConfirmDialog';
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -68,6 +69,7 @@ const EditCourse = () => {
           </Tooltip>
         </div>
         {courseLoading || lessonLoading || lessonOrderLoading ? <SpinnerLoader /> : null}
+        <ConfirmDialog />
     </MainLayout>
   );
 };

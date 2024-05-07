@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   open: false,
   openLogin: false,
+  openConfirmation: false,
   loading: false,
   error: "",
   loggedUser: {},
@@ -104,6 +105,9 @@ const navSlice = createSlice({
     handleOpenLogin: (state) => {
       state.openLogin = !state.openLogin;
     },
+    handleOpenConfirmation: (state) => {
+      state.openConfirmation = !state.openConfirmation;
+    },
     resetToken: (state) => {
       state.token = "";
     },
@@ -159,11 +163,12 @@ const navSlice = createSlice({
   },
 });
 
+export const isOpenConfirmation = (state) => state.navData.openConfirmation;
 export const isLoginLoading = (state) => state.navData.loading;
 export const isOpen = (state) => state.navData.open;
 export const isLoginOpen = (state) => state.navData.openLogin;
 export const user = (state) => state.navData.loggedUser;
-export const { handleOpen, handleOpenLogin, resetToken, resetLoggedUser } =
+export const { handleOpen, handleOpenConfirmation, handleOpenLogin, resetToken, resetLoggedUser } =
   navSlice.actions;
 
 export default navSlice.reducer;

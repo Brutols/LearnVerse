@@ -23,8 +23,11 @@
         display: flex;
         flex-direction: column;
 
-        &__btn {
-            align-self: flex-end;
+        &__btns {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 5px;
         }
     }
 

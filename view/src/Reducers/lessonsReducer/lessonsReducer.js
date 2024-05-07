@@ -230,7 +230,7 @@ const lessonsSlice = createSlice({
         state.loading = false;
       })
       .addCase(deleteLesson.rejected, (state, action) => {
-        state.loading = false,
+        state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
       })
   },

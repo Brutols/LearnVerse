@@ -16,6 +16,10 @@ export default function CourseCardBO({title, desc, cover, price, category, id}) 
     navigate(`/editCourse/${id}`)
   }
 
+  const handleDeleteConfirm = () => {
+
+  }
+
   return (
     <Card className='card'>
       <CardMedia
@@ -40,6 +44,7 @@ export default function CourseCardBO({title, desc, cover, price, category, id}) 
       </CardContent>
       <CardActions>
         <Button variant='contained' size="small" onClick={handleRedirect}>Edit</Button>
+        <Button color='error' variant='contained' size="small" onClick={handleDeleteConfirm}>Delete</Button>
       </CardActions>
     </Card>
   );

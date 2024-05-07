@@ -40,6 +40,20 @@ export const editLessonOrder = createAsyncThunk(
     }
   )
 
+export const deleteLessonOrder = createAsyncThunk(
+  'lessonsOrder/DELETElessonsOrder',
+  async (id) => {
+    try {
+      const res = axios.delete(
+        `${process.env.REACT_APP_BASE_URL}/lessonsOrder/${id}`
+      )
+      return (await res).data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
   const lessonsOrderSlice = createSlice({
     name: 'lessonsOrder',
     initialState,
@@ -71,6 +85,16 @@ export const editLessonOrder = createAsyncThunk(
             .addCase(editLessonOrder.rejected, (state, action) => {
                 state.loading = false;
                 state.error = `${action.error.code}: ${action.error.message}`;
+            })
+            .addCase(deleteLessonOrder.pending, (state) => {
+              state.loading = true;
+            })
+            .addCase(deleteLessonOrder.fulfilled, (state) => {
+              state.loading = false;
+            })
+            .addCase(deleteLessonOrder.rejected, (state, action) => {
+              state.loading = false;
+              state.error = `${action.error.code}: ${action.error.message}`;
             })
     }
   })

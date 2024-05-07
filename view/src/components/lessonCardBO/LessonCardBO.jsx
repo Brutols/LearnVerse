@@ -13,7 +13,7 @@ import {
   setEditLesson,
   setLessonId,
 } from "../../Reducers/lessonsReducer/lessonsReducer";
-import { handleOpenConfirmation } from "../../Reducers/navReducer/navReducer";
+import { handleOpenConfirmation, setIdToDelete } from "../../Reducers/navReducer/navReducer";
 
 export default function LessonCardBO({
   title,
@@ -32,6 +32,7 @@ export default function LessonCardBO({
   };
 
   const handleDeleteConfirm = () => {
+    dispatch(setIdToDelete(lessonId));
     dispatch(handleOpenConfirmation());
   };
 

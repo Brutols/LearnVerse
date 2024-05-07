@@ -5,6 +5,7 @@ const initialState = {
   open: false,
   openLogin: false,
   openConfirmation: false,
+  idToDelete: "",
   loading: false,
   error: "",
   loggedUser: {},
@@ -114,6 +115,9 @@ const navSlice = createSlice({
     resetLoggedUser: (state) => {
       state.loggedUser = {};
     },
+    setIdToDelete: (state, action) => {
+      state.idToDelete = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -159,16 +163,23 @@ const navSlice = createSlice({
       .addCase(uploadProfilePic.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
-      })
+      });
   },
 });
 
+export const id = (state) => state.navData.idToDelete;
 export const isOpenConfirmation = (state) => state.navData.openConfirmation;
 export const isLoginLoading = (state) => state.navData.loading;
 export const isOpen = (state) => state.navData.open;
 export const isLoginOpen = (state) => state.navData.openLogin;
 export const user = (state) => state.navData.loggedUser;
-export const { handleOpen, handleOpenConfirmation, handleOpenLogin, resetToken, resetLoggedUser } =
-  navSlice.actions;
+export const {
+  handleOpen,
+  setIdToDelete,
+  handleOpenConfirmation,
+  handleOpenLogin,
+  resetToken,
+  resetLoggedUser,
+} = navSlice.actions;
 
 export default navSlice.reducer;

@@ -69,7 +69,7 @@ const EditCourse = () => {
           </Tooltip>
         </div>
         {courseLoading || lessonLoading || lessonOrderLoading ? <SpinnerLoader /> : null}
-        <ConfirmDialog />
+        <ConfirmDialog isLesson={true}/>
     </MainLayout>
   );
 };

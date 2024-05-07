@@ -9,6 +9,7 @@ import AddCourse from "../components/addCourse/addCourse";
 import AllCourseCardBO from "../components/courseCardBO/AllCourseCardBO";
 import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 import { isLessonsOrderLoading } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
+import ConfirmDialog from '../components/confirmDialog/ConfirmDialog';
 
 const AdminPage = () => {
     const courseLoading = useSelector(isCourseLoading);
@@ -34,6 +35,7 @@ const AdminPage = () => {
       </div>
       <AddCourse />
       {courseLoading || lessonOrderLoading ? <SpinnerLoader /> : null}
+      <ConfirmDialog isCourse={true}/>
     </MainLayout>
   );
 };

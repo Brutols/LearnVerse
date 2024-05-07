@@ -7,17 +7,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import './courseCardBO.scss';
+import { useDispatch } from 'react-redux';
+import { handleOpenConfirmation, setIdToDelete } from '../../Reducers/navReducer/navReducer';
 
 
 export default function CourseCardBO({title, desc, cover, price, category, id}) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleRedirect = () => {
     navigate(`/editCourse/${id}`)
   }
 
   const handleDeleteConfirm = () => {
-
+    dispatch(setIdToDelete(id));
+    dispatch(handleOpenConfirmation());
   }
 
   return (

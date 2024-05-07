@@ -29,6 +29,14 @@
             align-items: center;
             gap: 5px;
         }
+
+        &__description {
+            display: -webkit-box;
+            max-width: 600px;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
     }
 
     &__icon {

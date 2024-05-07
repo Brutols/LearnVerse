@@ -44,6 +44,7 @@ export default function LessonCardBO({
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className="lessonCard"
+          elevation={12}
         >
           <div className="lessonCard__videoWrapper">
             <ReactPlayer

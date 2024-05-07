@@ -8,6 +8,7 @@ const initialState = {
   courses: [],
   singleCourse: {},
   refresh: false,
+  editCourse: false,
 };
 
 export const getAllCourses = createAsyncThunk(
@@ -101,6 +102,27 @@ export const createLessonsOrder = createAsyncThunk(
   }
 );
 
+export const updateCourse = createAsyncThunk(
+  'courses/PATCHupdateCourse',
+  async ({id, formData}) => {
+    const bodyToSend = JSON.stringify(formData);
+    try {
+      const res = await axios.patch(
+        `${process.env.REACT_APP_BASE_URL}/courses/${id}`,
+        bodyToSend,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      return await res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+)
+
 export const deleteCourse = createAsyncThunk(
   'courses/DELETEdeletecourses',
   async (id) => {
@@ -124,6 +146,9 @@ const coursesSlice = createSlice({
     },
     toggleRefresh: (state) => {
         state.refresh = !state.refresh;
+    },
+    setEditCourse: (state) => {
+      state.editCourse = !state.editCourse;
     }
   },
   extraReducers: (builder) => {
@@ -170,6 +195,16 @@ const coursesSlice = createSlice({
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
       })
+      .addCase(updateCourse.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateCourse.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateCourse.rejected, (state, action) => {
+        state.loading = false;
+        state.error = `${action.error.code}: ${action.error.message}`;
+      })
       .addCase(deleteCourse.pending, (state) => {
         state.loading = true;
       })
@@ -183,12 +218,13 @@ const coursesSlice = createSlice({
   },
 });
 
+export const isEditCourse = (state) => state.coursesData.editCourse;
 export const singleCourseState = (state) => state.coursesData.singleCourse;
 export const isRefresh = (state) => state.coursesData.refresh;
 export const allCourses = (state) => state.coursesData.courses;
 export const errorState = (state) => state.coursesData.error;
 export const isCourseLoading = (state) => state.coursesData.loading;
 export const isAddCourseOpen = (state) => state.coursesData.addCourseOpen;
-export const { setAddCoursesOpen, toggleRefresh } = coursesSlice.actions;
+export const { setAddCoursesOpen, toggleRefresh, setEditCourse } = coursesSlice.actions;
 
 export default coursesSlice.reducer;

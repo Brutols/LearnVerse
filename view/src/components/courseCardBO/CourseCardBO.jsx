@@ -25,7 +25,7 @@ export default function CourseCardBO({title, desc, cover, price, category, id}) 
   }
 
   return (
-    <Card className='card'>
+    <Card className='card' elevation={12}>
       <CardMedia
         component="img"
         alt={title}

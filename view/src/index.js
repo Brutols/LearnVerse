@@ -17,7 +17,7 @@ import lessonsOrderReducer from './Reducers/lessonsOrderReducer/lessonsOrderRedu
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['navData']
+  whitelist: ['navData'],
 };
 
 const rootReducer = combineReducers({

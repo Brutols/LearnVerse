@@ -6,13 +6,18 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getSingleLesson,
+  isLessonLoading,
   singleLesson,
 } from "../Reducers/lessonsReducer/lessonsReducer";
 import "./lessonPageFO.scss";
+import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
+import { isLoginLoading } from "../Reducers/navReducer/navReducer";
 
 const LessonPageFO = () => {
   const { id } = useParams();
   const lesson = useSelector(singleLesson);
+  const lessonLoading = useSelector(isLessonLoading);
+  const loginLoading = useSelector(isLoginLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,6 +42,7 @@ const LessonPageFO = () => {
           />
         </Paper>
       </Container>
+      {lessonLoading || loginLoading ? <SpinnerLoader /> : null}
     </MainLayout>
   );
 };

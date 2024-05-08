@@ -10,10 +10,12 @@ import AllCourseCardBO from "../components/courseCardBO/AllCourseCardBO";
 import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 import { isLessonsOrderLoading } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
 import ConfirmDialog from '../components/confirmDialog/ConfirmDialog';
+import { isLoginLoading } from "../Reducers/navReducer/navReducer";
 
 const AdminPage = () => {
     const courseLoading = useSelector(isCourseLoading);
     const lessonOrderLoading = useSelector(isLessonsOrderLoading);
+    const loginLoading = useSelector(isLoginLoading);
     const dispatch = useDispatch();
 
     const handleOpen = () => {
@@ -34,7 +36,7 @@ const AdminPage = () => {
         </Tooltip>
       </div>
       <AddCourse />
-      {courseLoading || lessonOrderLoading ? <SpinnerLoader /> : null}
+      {courseLoading || lessonOrderLoading || loginLoading ? <SpinnerLoader /> : null}
       <ConfirmDialog isCourse={true}/>
     </MainLayout>
   );

@@ -34,6 +34,7 @@ import AllLessonCardBO from "../components/lessonCardBO/AllLessonCardBO";
 import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 import ConfirmDialog from "../components/confirmDialog/ConfirmDialog";
 import { toast } from "react-toastify";
+import { isLoginLoading } from "../Reducers/navReducer/navReducer";
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -43,6 +44,7 @@ const EditCourse = () => {
   const courseLoading = useSelector(isCourseLoading);
   const lessonLoading = useSelector(isLessonLoading);
   const lessonOrderLoading = useSelector(isLessonsOrderLoading);
+  const loginLoading = useSelector(isLoginLoading);
   const lessonId = useSelector(singleLessonId);
   const editLesson = useSelector(isEditLesson);
   const [formData, setFormData] = useState({});
@@ -175,7 +177,7 @@ const EditCourse = () => {
           </Fab>
         </Tooltip>
       </div>
-      {courseLoading || lessonLoading || lessonOrderLoading ? (
+      {courseLoading || lessonLoading || lessonOrderLoading || loginLoading ? (
         <SpinnerLoader />
       ) : null}
       <ConfirmDialog isLesson={true} />

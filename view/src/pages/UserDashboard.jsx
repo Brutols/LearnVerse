@@ -2,12 +2,14 @@ import React from "react";
 import MainLayout from "../layouts/mainLayout/MainLayout";
 import { Avatar, Container, Grid, Paper, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { editUser, uploadProfilePic, user } from "../Reducers/navReducer/navReducer";
+import { editUser, isLoginLoading, uploadProfilePic, user } from "../Reducers/navReducer/navReducer";
 import "./userDashboard.scss";
 import CourseCardFO from "../components/courseCardFO/CourseCardFO";
+import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 
 const UserDashboard = () => {
   const loggedUser = useSelector(user);
+  const loginLoading = useSelector(isLoginLoading);
   const dispatch = useDispatch();
 
   const handlePicChange = async (e) => {
@@ -47,6 +49,7 @@ const UserDashboard = () => {
           </Grid>
         </Paper>
       </Container>
+      {loginLoading && <SpinnerLoader />}
     </MainLayout>
   );
 };

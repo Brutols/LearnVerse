@@ -1,31 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const getCourseLessons = createAsyncThunk(
   "lessons/GETcourseLessons",
   async (id) => {
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/lessons/${id}`
-      );
-      return await res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/lessons/${id}`
+    );
+    return await res.data;
   }
 );
 
 export const getSingleLesson = createAsyncThunk(
   "lessons/GETsingleLesson",
   async (id) => {
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/lessons/single/${id}`
-      );
-      return await res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/lessons/single/${id}`
+    );
+    return await res.data;
   }
 );
 
@@ -34,20 +27,16 @@ export const lessonsUploadVideo = createAsyncThunk(
   async (file) => {
     const fileFormData = new FormData();
     fileFormData.append("file", file);
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/lessons/uploadVideo`,
-        fileFormData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return await res.data.source;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/lessons/uploadVideo`,
+      fileFormData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return await res.data.source;
   }
 );
 
@@ -56,20 +45,16 @@ export const lessonsUploadImg = createAsyncThunk(
   async (file) => {
     const fileFormData = new FormData();
     fileFormData.append("file", file);
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/lessons/uploadImg`,
-        fileFormData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return await res.data.source;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/lessons/uploadImg`,
+      fileFormData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return await res.data.source;
   }
 );
 
@@ -78,20 +63,16 @@ export const createLesson = createAsyncThunk(
   async ({ formData, img, video }) => {
     if (!img || !video) return;
     const bodyToSend = JSON.stringify(formData);
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/lessons`,
-        bodyToSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return await res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/lessons`,
+      bodyToSend,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return await res.data;
   }
 );
 
@@ -99,36 +80,28 @@ export const updateLesson = createAsyncThunk(
   "lessons/PATCHupdateLesson",
   async ({ id, formData }) => {
     const bodyToSend = JSON.stringify(formData);
-    try {
-      const res = await axios.patch(
-        `${process.env.REACT_APP_BASE_URL}/lessons/${id}`,
-        bodyToSend,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return await res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.patch(
+      `${process.env.REACT_APP_BASE_URL}/lessons/${id}`,
+      bodyToSend,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return await res.data;
   }
 );
 
 export const deleteLesson = createAsyncThunk(
-  'lessons/DELETEdeleteLesson',
+  "lessons/DELETEdeleteLesson",
   async (id) => {
-    try {
-      const res = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/lessons/${id}`
-      )
-      return await res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/lessons/${id}`
+    );
+    return await res.data;
   }
-)
+);
 
 const initialState = {
   addLessonOpen: false,
@@ -170,6 +143,7 @@ const lessonsSlice = createSlice({
       .addCase(getCourseLessons.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(getSingleLesson.pending, (state) => {
         state.loading = true;
@@ -181,6 +155,7 @@ const lessonsSlice = createSlice({
       .addCase(getSingleLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(lessonsUploadVideo.pending, (state) => {
         state.loading = true;
@@ -191,6 +166,7 @@ const lessonsSlice = createSlice({
       .addCase(lessonsUploadVideo.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(lessonsUploadImg.pending, (state) => {
         state.loading = true;
@@ -201,6 +177,7 @@ const lessonsSlice = createSlice({
       .addCase(lessonsUploadImg.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(createLesson.pending, (state) => {
         state.loading = true;
@@ -212,6 +189,7 @@ const lessonsSlice = createSlice({
       .addCase(createLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(updateLesson.pending, (state) => {
         state.loading = true;
@@ -222,6 +200,7 @@ const lessonsSlice = createSlice({
       .addCase(updateLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(deleteLesson.pending, (state) => {
         state.loading = true;
@@ -232,7 +211,8 @@ const lessonsSlice = createSlice({
       .addCase(deleteLesson.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
-      })
+        toast.error(`${action.error.code}: ${action.error.message}`);
+      });
   },
 });
 

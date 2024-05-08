@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const initialState = {
   open: false,
@@ -34,43 +35,35 @@ export const createUser = createAsyncThunk(
 export const userLogin = createAsyncThunk(
   "login/POSTuserLogin",
   async (formData) => {
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/login`,
-        {
-          email: formData.email,
-          password: formData.password,
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/login`,
+      {
+        email: formData.email,
+        password: formData.password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
+      }
+    );
+    return res.data;
   }
 );
 
 export const editUser = createAsyncThunk(
   "users/PATCHeditUser",
   async ({ id, data }) => {
-    try {
-      const res = await axios.patch(
-        `${process.env.REACT_APP_BASE_URL}/users/${id}`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.patch(
+      `${process.env.REACT_APP_BASE_URL}/users/${id}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return res.data;
   }
 );
 
@@ -79,20 +72,16 @@ export const uploadProfilePic = createAsyncThunk(
   async (file) => {
     const fileFormData = new FormData();
     fileFormData.append("file", file);
-    try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/uploadImg`,
-        fileFormData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      return await res.data.source;
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/users/uploadImg`,
+      fileFormData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return await res.data.source;
   }
 );
 
@@ -118,6 +107,9 @@ const navSlice = createSlice({
     setIdToDelete: (state, action) => {
       state.idToDelete = action.payload;
     },
+    resetLoading: (state) => {
+      state.loading = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -130,6 +122,7 @@ const navSlice = createSlice({
       .addCase(createUser.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(userLogin.pending, (state) => {
         state.loading = true;
@@ -142,6 +135,7 @@ const navSlice = createSlice({
       .addCase(userLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(editUser.pending, (state) => {
         state.loading = true;
@@ -153,6 +147,7 @@ const navSlice = createSlice({
       .addCase(editUser.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       })
       .addCase(uploadProfilePic.pending, (state) => {
         state.loading = true;
@@ -163,6 +158,7 @@ const navSlice = createSlice({
       .addCase(uploadProfilePic.rejected, (state, action) => {
         state.loading = false;
         state.error = `${action.error.code}: ${action.error.message}`;
+        toast.error(`${action.error.code}: ${action.error.message}`);
       });
   },
 });
@@ -180,6 +176,7 @@ export const {
   handleOpenLogin,
   resetToken,
   resetLoggedUser,
+  resetLoading,
 } = navSlice.actions;
 
 export default navSlice.reducer;

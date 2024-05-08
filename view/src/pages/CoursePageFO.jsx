@@ -15,18 +15,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getSingleCourse,
+  isCourseLoading,
   singleCourseState,
 } from "../Reducers/coursesReducer/coursesReducer";
 import {
   getLessonsOrder,
+  isLessonsOrderLoading,
   singleLessonsOrder,
 } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
-import { editUser, user } from "../Reducers/navReducer/navReducer";
+import { editUser, isLoginLoading, user } from "../Reducers/navReducer/navReducer";
+import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 
 const CoursePageFO = () => {
   const { id } = useParams();
   const singleCourse = useSelector(singleCourseState);
   const lessonsOrder = useSelector(singleLessonsOrder);
+  const courseLoading = useSelector(isCourseLoading);
+  const LessonsOrderLoading = useSelector(isLessonsOrderLoading);
+  const loginLoading = useSelector(isLoginLoading);
   const loggedUser = useSelector(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -104,6 +110,7 @@ const CoursePageFO = () => {
           </Button>
         </Box>
       </Container>
+      {courseLoading || LessonsOrderLoading || loginLoading ? <SpinnerLoader /> : null}
     </MainLayout>
   );
 };

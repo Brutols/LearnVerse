@@ -10,14 +10,19 @@ import {
 import {
   allCourses,
   getAllCourses,
+  isCourseLoading,
 } from "../Reducers/coursesReducer/coursesReducer";
 import { useEffect, useState } from "react";
 import CategoryFilter from "../components/categoryFilter/CategoryFilter";
 import CourseCardFO from "../components/courseCardFO/CourseCardFO";
+import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
+import { isLoginLoading } from "../Reducers/navReducer/navReducer";
 
 const BrowseCourses = () => {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const courses = useSelector(allCourses);
+  const courseLoading = useSelector(isCourseLoading);
+  const loginLoading = useSelector(isLoginLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,6 +52,7 @@ const BrowseCourses = () => {
               ))}
         </Grid>
       </Container>
+      {courseLoading || loginLoading ? <SpinnerLoader /> : null}
     </MainLayout>
   );
 };

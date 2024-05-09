@@ -1,0 +1,8 @@
+.courseCardFO {
+  transition: all 0.3s ease-in-out!important;
+  &:hover {
+    transform: rotate(-5deg) translateX(-20px) translateY(-10px);
+    -webkit-box-shadow: 5px 5px 30px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 5px 30px 5px rgba(0, 0, 0, 0.5);
+  }
+}

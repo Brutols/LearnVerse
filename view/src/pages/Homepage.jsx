@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import CourseCardFO from "../components/courseCardFO/CourseCardFO";
 import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 import { isLoginLoading } from "../Reducers/navReducer/navReducer";
+import './homepage.scss'
 
 const features = [
   {
@@ -53,12 +54,12 @@ const Homepage = () => {
     <>
       <MainLayout>
         <div>
-          <Box sx={{ bgcolor: "background.paper", pt: 8, pb: 6 }}>
+          <Box className='jumbotron' sx={{ pt: 8, pb: 6 }}>
             <Container maxWidth="sm">
               <Typography
                 variant="h2"
                 align="center"
-                color="text.primary"
+                color="#fff"
                 gutterBottom
               >
                 Welcome to Our Online Learning Platform
@@ -66,7 +67,7 @@ const Homepage = () => {
               <Typography
                 variant="h5"
                 align="center"
-                color="text.secondary"
+                color="#fff"
                 paragraph
               >
                 Explore our wide range of courses taught by industry experts.
@@ -101,12 +102,12 @@ const Homepage = () => {
             <Grid container spacing={3}>
               {features.map((feature, index) => (
                 <Grid item xs={12} key={index}>
-                  <Card>
+                  <Card elevation={12} className={`${index % 2 === 0 ? 'feature__left' : 'feature__right'}`}>
                     <CardContent>
-                      <Typography variant="h5" component="div">
+                      <Typography variant="h5" component="div" color={`${index % 2 === 0 ? '#fff' : 'text.primary'}`}>
                         {feature.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" color={`${index % 2 === 0 ? '#fff' : 'text.secondary'}`}>
                         {feature.description}
                       </Typography>
                     </CardContent>

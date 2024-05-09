@@ -24,13 +24,21 @@
 
         &__item {
             display: flex;
-            cursor: pointer;
 
             &__img {
                 width: 20%;
                 object-fit: cover;
                 border-bottom-left-radius: 5px;
                 border-top-left-radius: 5px;
+            }
+        }
+
+        &__subscribed {
+            cursor: pointer;
+            transition: all 0.3s ease-in-out!important;
+
+            &:hover {
+                transform: translateX(30px);
             }
         }
     }

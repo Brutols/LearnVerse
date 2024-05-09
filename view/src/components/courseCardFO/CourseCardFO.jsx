@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { user } from "../../Reducers/navReducer/navReducer";
 import BeenhereIcon from '@mui/icons-material/Beenhere';
+import './courseCardFO.scss'
 
 const CourseCardFO = ({ course }) => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const CourseCardFO = ({ course }) => {
 
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card onClick={() => navigate(`/course/${course._id}`)}>
+      <Card className="courseCardFO" onClick={() => navigate(`/course/${course._id}`)}>
         <div style={{cursor: 'pointer'}}>
         <img
           src={course.cover}

@@ -23,7 +23,11 @@ import {
   isLessonsOrderLoading,
   singleLessonsOrder,
 } from "../Reducers/lessonsOrderReducer/lessonsOrderReducer";
-import { editUser, isLoginLoading, user } from "../Reducers/navReducer/navReducer";
+import {
+  editUser,
+  isLoginLoading,
+  user,
+} from "../Reducers/navReducer/navReducer";
 import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 
 const CoursePageFO = () => {
@@ -39,13 +43,14 @@ const CoursePageFO = () => {
 
   const handleSubscribe = () => {
     const dataToSend = {
-        myCourses: [...loggedUser.myCourses, id]
-    }
-    dispatch(editUser({id: loggedUser._id, data: dataToSend}))
-  }
+      myCourses: [...loggedUser.myCourses, id],
+    };
+    dispatch(editUser({ id: loggedUser._id, data: dataToSend }));
+  };
 
-  const isSubscribed = loggedUser.myCourses.find((course) => course._id === id);
-  console.log(isSubscribed);
+  const isSubscribed = loggedUser.myCourses
+    ? loggedUser.myCourses.find((course) => course._id === id)
+    : null;
 
   useEffect(() => {
     dispatch(getSingleCourse(id));
@@ -83,11 +88,15 @@ const CoursePageFO = () => {
             {lessonsOrder.lessonsOrder &&
               lessonsOrder.lessonsOrder.map((lesson, index) => (
                 <Paper
-                  className="courseFO__lessons__item"
+                  className={`courseFO__lessons__item ${isSubscribed ? 'courseFO__lessons__subscribed' : ''}`}
                   key={index}
                   elevation={12}
                   style={{ marginBottom: "10px" }}
-                  onClick={isSubscribed ? () => navigate(`/lesson/${lesson._id}`) : null}
+                  onClick={
+                    isSubscribed
+                      ? () => navigate(`/lesson/${lesson._id}`)
+                      : null
+                  }
                 >
                   <img
                     src={lesson.cover}
@@ -100,17 +109,23 @@ const CoursePageFO = () => {
                 </Paper>
               ))}
           </List>
-          <Button
-            className="courseFO__button"
-            variant="contained"
-            color={isSubscribed ? 'success' : 'primary'}
-            onClick={isSubscribed ? null : handleSubscribe}
-          >
-            {isSubscribed ? 'Subscribed' : `Subscribe ${singleCourse.price} €`}
-          </Button>
+          {loggedUser.myCourses && (
+            <Button
+              className="courseFO__button"
+              variant="contained"
+              color={isSubscribed ? "success" : "primary"}
+              onClick={isSubscribed ? null : handleSubscribe}
+            >
+              {isSubscribed
+                ? "Subscribed"
+                : `Subscribe ${singleCourse.price} €`}
+            </Button>
+          )}
         </Box>
       </Container>
-      {courseLoading || LessonsOrderLoading || loginLoading ? <SpinnerLoader /> : null}
+      {courseLoading || LessonsOrderLoading || loginLoading ? (
+        <SpinnerLoader />
+      ) : null}
     </MainLayout>
   );
 };

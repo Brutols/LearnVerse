@@ -35,6 +35,7 @@ import SpinnerLoader from "../components/spinnerLoader/SpinnerLoader";
 import ConfirmDialog from "../components/confirmDialog/ConfirmDialog";
 import { toast } from "react-toastify";
 import { isLoginLoading } from "../Reducers/navReducer/navReducer";
+import MyAccordion from "../components/accordion/Accordion";
 
 const EditCourse = () => {
   const { id } = useParams();
@@ -51,8 +52,8 @@ const EditCourse = () => {
   const [fileToSave, setFileToSave] = useState(null);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value})
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleUpload = (e) => {
@@ -60,17 +61,19 @@ const EditCourse = () => {
   };
 
   const handleSave = async () => {
-    const uploadedFile = fileToSave ? await dispatch(coursesUploadImg(fileToSave)) : null;
+    const uploadedFile = fileToSave
+      ? await dispatch(coursesUploadImg(fileToSave))
+      : null;
     const bodyToSend = {
-      ...formData
-    }
+      ...formData,
+    };
     if (uploadedFile) {
       bodyToSend.cover = uploadedFile.payload;
     }
-    await dispatch(updateCourse({id: id, formData: bodyToSend}));
-    toast.success('Course Updated!')
+    await dispatch(updateCourse({ id: id, formData: bodyToSend }));
+    toast.success("Course Updated!");
     dispatch(toggleRefresh());
-  }
+  };
 
   const handleOpen = () => {
     dispatch(setAddLessonOpen());
@@ -91,73 +94,81 @@ const EditCourse = () => {
         {singleCourse.title}
       </Typography>
       <Container>
-        <Paper elevation={12} className="editCourseContainer__form">
-          <TextField
-            onChange={handleChange}
-            autoFocus
-            required
-            margin="dense"
-            id="title"
-            name="title"
-            label="Title"
-            type="text"
-            fullWidth
-            variant="outlined"
-            helperText={singleCourse.title}
-          />
-          <TextField
-            onChange={handleChange}
-            autoFocus
-            required
-            margin="dense"
-            id="desc"
-            name="desc"
-            label="Description"
-            type="text"
-            fullWidth
-            variant="outlined"
-            helperText={singleCourse.desc}
-          />
-          <TextField
-            onChange={handleChange}
-            autoFocus
-            required
-            margin="dense"
-            id="price"
-            name="price"
-            label="Price"
-            type="number"
-            variant="outlined"
-            fullWidth
-            helperText={`${singleCourse.price}.00 €`}
-          />
-          <TextField
-            onChange={handleChange}
-            autoFocus
-            required
-            margin="dense"
-            id="category"
-            name="category"
-            label="Category"
-            type="text"
-            variant="outlined"
-            fullWidth
-            helperText={singleCourse.category}
-          />
-          <TextField
-            onChange={handleUpload}
-            autoFocus
-            required
-            margin="dense"
-            id="cover"
-            name="file"
-            helperText={singleCourse.cover}
-            type="file"
-            variant="outlined"
-            fullWidth
-          />
-          <Button variant="contained" sx={{alignSelf: 'flex-end'}} onClick={handleSave}>Save</Button>
-        </Paper>
+        <MyAccordion title='Edit Course Data'>
+          <Paper className="editCourseContainer__form">
+            <TextField
+              onChange={handleChange}
+              autoFocus
+              required
+              margin="dense"
+              id="title"
+              name="title"
+              label="Title"
+              type="text"
+              fullWidth
+              variant="outlined"
+              helperText={singleCourse.title}
+            />
+            <TextField
+              onChange={handleChange}
+              autoFocus
+              required
+              margin="dense"
+              id="desc"
+              name="desc"
+              label="Description"
+              type="text"
+              fullWidth
+              variant="outlined"
+              helperText={singleCourse.desc}
+            />
+            <TextField
+              onChange={handleChange}
+              autoFocus
+              required
+              margin="dense"
+              id="price"
+              name="price"
+              label="Price"
+              type="number"
+              variant="outlined"
+              fullWidth
+              helperText={`${singleCourse.price}.00 €`}
+            />
+            <TextField
+              onChange={handleChange}
+              autoFocus
+              required
+              margin="dense"
+              id="category"
+              name="category"
+              label="Category"
+              type="text"
+              variant="outlined"
+              fullWidth
+              helperText={singleCourse.category}
+            />
+            <TextField
+              onChange={handleUpload}
+              autoFocus
+              required
+              margin="dense"
+              id="cover"
+              name="file"
+              helperText={singleCourse.cover}
+              type="file"
+              variant="outlined"
+              fullWidth
+            />
+            <Button
+              variant="contained"
+              sx={{ alignSelf: "flex-end" }}
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </Paper>
+        </MyAccordion>
 
         <Typography variant="h4" my={2} className="editCourseContainer__title">
           Manage lessons
